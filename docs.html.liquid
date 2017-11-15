@@ -1,0 +1,49 @@
+{% if request.request_uri contains "state=3scale" %}
+<script type="text/javascript">
+alert("Success! Authorized");
+</script>
+<a class="btn btn-primary" id="oidc" href="javascript:void(0);" >Get Token</a>
+<select id="keySelect" onchange="addKey('token')">
+          <option>Choose your application</option>
+  		{% for application in current_account.applications %}
+          <option value="{{application.keys.first}}|{{application.application_id}}">{{application.name}} | {{application.service.name}}</option>
+   		{% endfor %}
+</select>
+{% else %}
+<a class="btn btn-primary" id="oidc" href="">Authorize</a>
+<select id="keySelect" onchange="addKey('auth')">
+          <option>Choose your application</option>
+  		{% for application in current_account.applications %}
+          <option value="{{application.keys.first}}|{{application.application_id}}">{{application.name}} | {{application.service.name}}</option>
+   		{% endfor %}
+</select>
+{% endif %}
+
+{% comment %}
+{% cdn_asset /swagger-ui/2.2.10/swagger-ui.js %}
+{% cdn_asset /swagger-ui/2.2.10/swagger-ui.css %}
+
+{% include 'personal/swagger-ui', spec_system_name: "social_code_test" %}
+{% endcomment %}
+{% active_docs version: "2.0" services: "social_code_test" %}
+<script type="text/javascript">
+  $(function () {
+    {% comment %}
+      // Customize the swaggerUi options in the partial: shared/swagger_ui
+      // you have access to these options to customize its behaviour
+      // such as setting a different docExpansion mode
+      docExpansion: 'list'
+      // or even getting the swagger specification loaded from a different url
+      url: "http://petstore.swagger.wordnik.com/api/api-docs"
+      // different ActiveDocs specs can be called by setting the variable spec_system_name in the include liquid tag
+    {% endcomment %}
+    window.swaggerUi.load();
+    });
+</script>
+{% for auth_provider in site.authentication_providers %}
+	{% case auth_provider.kind %}
+	{% when 'keycloak' %}
+	{% assign auth_url = {{auth_provider.authorize_url}} | split: '?' | first %}
+<h1>{{auth_url}}</h1>
+	{% endcase %}
+{% endfor %}
