@@ -19,7 +19,7 @@ var str = '{{auth_url}}',
     clientId = keys.split("|")[1]
     
     if (call == 'auth') {
-    el.setAttribute("href", "{{auth_url}}?response_type=code&client_id=" + clientId + "&client_secret=" + clientSecret + "&redirect_uri=https://hot-rox-test.3scale.net/docs&state=3scale");
+    el.setAttribute("href", "{{auth_url}}?response_type=code&client_id=" + clientId + "&client_secret=" + clientSecret + "&redirect_uri=https://" + "{{provider.domain}}" + "{{request.path}}" + "&state=3scale");
     } else if (call == 'token') {
       setCredentials(clientId, clientSecret, el);
     }
@@ -33,7 +33,7 @@ var str = '{{auth_url}}',
   {% assign code = params | split: 'code=' | last | split: '&' | first %}
     var code = '{{ code }}';
     var tokenUrl = result + '/token';
-    var  formData = "response_type=code&client_id=" + clientId + "&client_secret=" + clientSecret + "&redirect_uri=https://hot-rox-test.3scale.net/docs&state=3scale&grant_type=authorization_code&code=" + code;  //Name value Pair
+    var  formData = "response_type=code&client_id=" + clientId + "&client_secret=" + clientSecret + "&redirect_uri=https://" + "{{provider.domain}}" + "{{request.path}}" + "&state=3scale&grant_type=authorization_code&code=" + code;  //Name value Pair
    
 $.ajax({
     url : tokenUrl,
