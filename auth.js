@@ -19,49 +19,51 @@ var str = '{{auth_url}}',
     clientId = keys.split("|")[1]
     
     if (call == 'auth') {
-    el.setAttribute("href", "{{auth_url}}?response_type=code&client_id=" + clientId + "&client_secret=" + clientSecret + "&redirect_uri=https://" + "{{provider.domain}}" + "{{request.path}}" + "&state=3scale");
+    var state = setCookie('state', 12, 1)
+    setCookie('application', clientId, 2)
+    el.setAttribute("href", "{{auth_url}}?response_type=code&client_id=" + clientId + "&client_secret=" + clientSecret + "&redirect_uri=https://" + "{{provider.domain}}" + "{{request.path}}" + "&state=" + state);
     } else if (call == 'token') {
       setCredentials(clientId, clientSecret, el);
     }
 }
   function getToken(clientId, clientSecret) {
-  {% assign params = request.request_uri | split: '?' | last %}
-    console.log("params: " + '{{params}}')
-  {% if params contains 'state=3scale' %}
-  window.history.replaceState({}, document.title, "/" + "docs");
+    {% assign path = request.path | remove_first: '/' %}
+    {% assign params = request.request_uri | split: '?' | last %}
+    {% if params contains 'state=' %}
+    window.history.replaceState({}, document.title, "/" + "{{path}}");
   
-  {% assign code = params | split: 'code=' | last | split: '&' | first %}
+    {% assign code = params | split: 'code=' | last | split: '&' | first %}
     var code = '{{ code }}';
     var tokenUrl = result + '/token';
-    var  formData = "response_type=code&client_id=" + clientId + "&client_secret=" + clientSecret + "&redirect_uri=https://" + "{{provider.domain}}" + "{{request.path}}" + "&state=3scale&grant_type=authorization_code&code=" + code;  //Name value Pair
+    var  formData = "response_type=code&client_id=" + clientId + "&client_secret=" + clientSecret + "&redirect_uri=https://" + "{{provider.domain}}" + "{{request.path}}" + "&state=" + getCookie('state') + "&grant_type=authorization_code&code=" + code;  //Name value Pair
    
-$.ajax({
-    url : tokenUrl,
-    type: "POST",
-    data : formData,
-    success: function(response, textStatus, jqXHR)
-    { 
-      	var token = response.access_token;
-      	console.log(response); //data - response from server
-    	var tokenResponse = false;
-      	var inputs = $("input[name='Authorization']");
-      	if (inputs.length > 0) {
-        	tokenResponse = true;
-        	// set the value of the inputs
-        	inputs.each(function(index) {
-          	$(this).val('Bearer '+token);
-        	});
-        	alert("Success! Token: " + token);
-        	return;
-      	}
-    },
-    error: function (response, textStatus, jqXHR)
-    {
- 		alert(textStatus);
-    }
+    $.ajax({
+        url : tokenUrl,
+        type: "POST",
+        data : formData,
+        success: function(response, textStatus, jqXHR)
+        {
+          var token = response.access_token;
+          console.log(response); //data - response from server
+        	var tokenResponse = false;
+          var inputs = $("input[name='Authorization']");
+          if (inputs.length > 0) {
+            tokenResponse = true;
+            // set the value of the inputs
+            inputs.each(function(index) {
+              $(this).val('Bearer '+token);
+            });
+            alert("Success! Token: " + token);
+            return;
+          }
+        },
+        error: function (response, textStatus, jqXHR)
+        {
+     		alert(textStatus);
+        }
 });
    
-   {% elsif params contains 'state='  %}
-   alert('state is invalid or expired');
+    {% elsif params contains 'state=&'  %}
+      alert('state is invalid or expired');
     {% endif %}
-    };
+  };

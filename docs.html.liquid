@@ -1,7 +1,21 @@
-{% if request.request_uri contains "state=3scale" %}
+<script src="/javascripts/keycloak.js"></script>
+{% if request.request_uri contains "state=" %}
 <script type="text/javascript">
-alert("Success! Authorized");
+  var stateValue = getCookie('state');
+  {% assign url = request.request_uri %}
+  {% assign modified_params = url | replace: 'session_state', 'session_id'%}
+  
+  {% assign returnedState = modified_params | split: '?state=' | last | split: '&' | first | split: 'state=' | last %}
+  if(stateValue == '{{returnedState}}') {
+     alert("Success! Authorized");
+  }else{
+   alert("Error! Invalid state");
+   }
+  
 </script>
+{% assign url = request.request_uri %}
+<h1>{{url}}</h1>
+{% assign param = url | split: 'client_id=' | last %}
 <a class="btn btn-primary" id="oidc" href="javascript:void(0);" >Get Token</a>
 <select id="keySelect" onchange="addKey('token')">
           <option>Choose your application</option>
@@ -19,13 +33,12 @@ alert("Success! Authorized");
 </select>
 {% endif %}
 
-{% comment %}
 {% cdn_asset /swagger-ui/2.2.10/swagger-ui.js %}
 {% cdn_asset /swagger-ui/2.2.10/swagger-ui.css %}
 
-{% include 'personal/swagger-ui', spec_system_name: "social_code_test" %}
-{% endcomment %}
-{% active_docs version: "2.0" services: "social_code_test" %}
+{% include 'personal/swagger-ui', spec_system_name: "spec_system_name" %}
+
+
 <script type="text/javascript">
   $(function () {
     {% comment %}
@@ -44,6 +57,5 @@ alert("Success! Authorized");
 	{% case auth_provider.kind %}
 	{% when 'keycloak' %}
 	{% assign auth_url = {{auth_provider.authorize_url}} | split: '?' | first %}
-<h1>{{auth_url}}</h1>
 	{% endcase %}
 {% endfor %}
