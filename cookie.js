@@ -18,15 +18,15 @@ function setCookie(cname, cvalue, exminutes) {
 }
 
 function getCookie(cname) {
-    var lang = cname + "=";
+    var cookie = cname + "=";
     var ca = document.cookie.split(';');
     for(var i = 0; i < ca.length; i++) {
         var c = ca[i];
         while (c.charAt(0) == ' ') {
             c = c.substring(1);
         }
-        if (c.indexOf(lang) == 0) {
-            return c.substring(lang.length, c.length);
+        if (c.indexOf(cookie) == 0) {
+            return c.substring(cookie.length, c.length);
         }
     }
     return "";
