@@ -1,3 +1,10 @@
+{% for auth_provider in site.authentication_providers %}
+	{% case auth_provider.kind %}
+	{% when 'keycloak' %}
+	{% assign auth_url = {{auth_provider.authorize_url}} | split: '?' | first %}
+	{% endcase %}
+{% endfor %}
+<script type="text/javascript">
 var str = '{{auth_url}}',
   delimiter = '/auth',
   start = 2,
@@ -67,3 +74,4 @@ var str = '{{auth_url}}',
       alert('state is invalid or expired');
     {% endif %}
   };
+</script>

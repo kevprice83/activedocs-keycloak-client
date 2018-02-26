@@ -14,7 +14,7 @@
   
 </script>
 {% assign url = request.request_uri %}
-<h1>{{url}}</h1>
+
 {% assign param = url | split: 'client_id=' | last %}
 <a class="btn btn-primary" id="oidc" href="javascript:void(0);" >Get Token</a>
 <select id="keySelect" onchange="addKey('token')">
@@ -32,24 +32,3 @@
    		{% endfor %}
 </select>
 {% endif %}
-
-{% cdn_asset /swagger-ui/2.2.10/swagger-ui.js %}
-{% cdn_asset /swagger-ui/2.2.10/swagger-ui.css %}
-
-{% include 'personal/swagger-ui', spec_system_name: "spec_system_name" %}
-
-
-<script type="text/javascript">
-  $(function () {
-    {% comment %}
-      // Customize the swaggerUi options in the partial: shared/swagger_ui
-      // you have access to these options to customize its behaviour
-      // such as setting a different docExpansion mode
-      docExpansion: 'list'
-      // or even getting the swagger specification loaded from a different url
-      url: "http://petstore.swagger.wordnik.com/api/api-docs"
-      // different ActiveDocs specs can be called by setting the variable spec_system_name in the include liquid tag
-    {% endcomment %}
-    window.swaggerUi.load();
-    });
-</script>
