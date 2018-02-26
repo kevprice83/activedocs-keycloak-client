@@ -1,4 +1,4 @@
-<script src="/javascripts/keycloak.js"></script>
+<script src="/javascripts/cookie.js"></script>
 {% if request.request_uri contains "state=" %}
 <script type="text/javascript">
   var stateValue = getCookie('state');
