@@ -1,4 +1,8 @@
-ActiveDocs is the 3scale feature that is based on OAI & SwaggerUI. You can host any OAI compliant spec on 3scale & publish it in the Developer Portal for your community's reference & testing. One of the great advantages of the 3scale ActiveDocs is that it has its own proxy which supports CORS (only when using the SaaS platform). Perfect, no need to configure your own API to support CORS for this purpose. Additionally there are some custom 3scale fields that you can use inside the OAI spec to expose the currently logged in user's credentials for easy use. No copy-pasting those multiple sets of credentials to files where you're never going to remember them. The ActiveDocs feature doesn't support OAuth2 out-of-the-box. Therefore this "How to" is intended to provide a means of enabling OAuth2 security on the documentation describing your API services.
+What is ActiveDocs?
+-------------------
+ActiveDocs is the 3scale feature that is based on [OAI 2.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) & [SwaggerUI](https://github.com/swagger-api/swagger-ui). You can host any OAI compliant spec on 3scale & publish it in the Developer Portal for your community's reference & testing. One of the great advantages of the 3scale ActiveDocs is that it has its own proxy which supports CORS (only when using the SaaS platform). Perfect, no need to configure your own API to support CORS for this purpose.
+
+Additionally there are some [custom 3scale fields](https://access.redhat.com/documentation/en-us/red_hat_3scale/2.saas/html/api_documentation/create-activedocs-spec#useful_tools) that you can use inside the OAI spec to expose the currently logged in user's credentials for easy use. No copy-pasting those multiple sets of credentials to files where you're never going to remember them. The ActiveDocs feature doesn't support OAuth2.0 out-of-the-box. Therefore this "How to" is intended to provide a means of enabling an OAuth2 flow on the documentation page exposing your API services.
 
 Prerequisites
 -------------
@@ -11,7 +15,7 @@ What will be covered?
 
 *   How to configure Red Hat Single Sign-On server and the client.
 *   How to configure 3scale.
-*   Implementing the custom JavaScript client and Liquid to enable `Authorization Code flow`.
+*   Implementing the custom JavaScript client and Liquid to enable **Authorization Code flow**.
 
 ### Configure Red Hat Single Sign-On & example client
 
