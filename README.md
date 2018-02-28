@@ -47,7 +47,6 @@ Create a client in 3scale via API if the client already has been created in your
 
     curl -v  -X POST "https://{account-name}-admin.3scale.net/admin/api/accounts/{account_id}/applications.xml" -d 'access_token={access_token}&plan_id={application_plan_id}&name={application_name}&description={application_description}&application_id={client_id}&application_key={client_secret}'
     
-
 This is probably a bit quicker and easier for testing purposes. However, in production it makes much more sense that the synchronisation is done from 3scale to Red Hat Single Sign-On as these are the client and token masters respectively. The clients can be created via [API in Red Hat Single Sign-On](https://access.redhat.com/documentation/en-us/red_hat_single_sign-on/7.0/html/securing_applications_and_services_guide/client_registration#example_using_curl_2) also.
 
 ### Step 2
@@ -57,8 +56,6 @@ Add the Red Hat Single Sign-On URL to your developer portal SSO integrations if 
 ### Step 3
 
 Import the OAI spec using the ActiveDocs API. The easiest way to manage all your different API specifications is to host them directly on the 3scale platform. An example API call is shown here to import a spec. You can prepend the body of the JSON spec with the following query parameters:
-
-
 
     access_token={access_token}&name={spec_friendly_name}&system_name={spec_system_name}&body={
       "swagger": "2.0",
@@ -75,7 +72,6 @@ The JSON file can then be passed as a parameter with the **cURL** request as so:
 
     curl -v  -X POST "https://{account-name}-admin.3scale.net/admin/api/active_docs.json" -d @/path/to/file.json
     
-
 Ensure that the spec has the following field definition in the parameters array for each operation that requires a token to call the API endpoint.
 
     "parameters": [
@@ -87,7 +83,6 @@ Ensure that the spec has the following field definition in the parameters array 
                 "required": true
               },
     
-
 Add the JavaScript client & custom Liquid
 -----------------------------------------
 

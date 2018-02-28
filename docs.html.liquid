@@ -4,8 +4,8 @@
 If using the 2.2.10 version of swaggerui then use the following liquid tags to call the spec.	
 {% endcomment %}	
 	
-{% cdn_asset /swagger-ui/2.2.10/swagger-ui.js %}	 {% cdn_asset /swagger-ui/2.2.10/swagger-ui.js %}
-{% cdn_asset /swagger-ui/2.2.10/swagger-ui.css %}	 {% cdn_asset /swagger-ui/2.2.10/swagger-ui.css %}
+{% cdn_asset /swagger-ui/2.2.10/swagger-ui.js %}
+{% cdn_asset /swagger-ui/2.2.10/swagger-ui.css %}	
  	 
 {% include 'shared/swagger_ui' %}
 
@@ -21,6 +21,7 @@ If using the 2.2.10 version of swaggerui then use the following liquid tags to c
       url: "http://petstore.swagger.wordnik.com/api/api-docs"
       // different ActiveDocs specs can be called by setting the variable spec_system_name in the include liquid tag
     {% endcomment %}
+    window.swaggerUi.options['url'] = "{{provider.api_specs.spec_system_name.url}}";
     window.swaggerUi.load();
     });
 </script>
