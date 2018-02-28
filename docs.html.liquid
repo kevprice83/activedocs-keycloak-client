@@ -1,15 +1,9 @@
 {% include 'widget' %}
 
-{% comment %}
-If using the 2.2.10 version of swaggerui then use the following liquid tags to call the spec.
-{% endcomment %}
-
 {% cdn_asset /swagger-ui/2.2.10/swagger-ui.js %}
 {% cdn_asset /swagger-ui/2.2.10/swagger-ui.css %}
 
-{% include 'shared/swagger_ui' %}
-
-
+{% include 'shared/swagger-ui', spec_system_name: "spec_system_name" %}
 
 
 <script type="text/javascript">
